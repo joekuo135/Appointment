@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'appointmentapp/style.css' %}">
+        <title>Login/Registration</title>
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+
+        <fieldset class="form_wrap">
+            <legend>Register</legend>
+            <form action='/validation' method='post'>
+                {% csrf_token %}
+                <label class="colblock">Name: <input class="box1"type="text" name="name"></label>
+                <label class="colblock">Email: <input class="box1" type="text" name="email"></label>
+                <label class="colblock">Password: <input class="box1" type="password" name="password"></label>
+                <label class="colblock">Confirm Password: <input class="box1" type="password" name="confirm_password"></label>
+                <label class="colblock">Date of Birth: <input type="date" name="date_of_birth"></label>
+                <input type='submit' name='register' value='Register'/>
+            </form>
+        </fieldset>
+
+        <fieldset class="form_wrap">
+            <legend>Login</legend>
+            <form action='/login' method='post'>
+                {% csrf_token %}
+                <label class="colblock">Email: <input type="text" name="email"></label>
+                <label class="colblock">Password: <input type="password" name="password"></label>
+                <input type='submit' name='login' value='Login'/>
+            </form>
+        </fieldset>
+        <div id='warning'>
+                {% if messages %}
+                <ul class='messages'>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+        </div>
+           
+    
+    </body>
+</html>

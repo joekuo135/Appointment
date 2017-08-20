@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'appointmentapp/style.css' %}">
+        <title>Welcome</title>
+    </head>
+    <body>
+        <h1>Hello, {{ name }}!</h1>
+        <form action='/logout'>
+            {% csrf_token %}
+            <input type='submit' name='logout' value='Logout'/>
+        </form>
+        <div id="appointment_tables">
+            <h3>Here are your appointments for today, {{date}}:</h3>
+            <table class='maintable'>
+				<tr>
+                    <th>Tasks</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+				{% for task in todays_tasks %}
+                <tr>
+                    <td>{{task.title}}</td>
+                    <td>{{task.time}}</td>
+                    <td>{{task.get_status_display}}</td>
+                    <td><a href="/edit/{{task.id}}">Edit</a> <a href="/delete/{{task.id}}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <h3>Your other appointments:</h3>
+            <table class='maintable'>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+
+                {% for task in future_tasks %}
+                <tr>
+					<td>{{task.title}}</td>
+					<td>{{task.date}}</td>
+					<td>{{task.time}}</td>
+				</tr>
+                {% endfor %}
+
+            </table>
+        </div>
+        <div id="add_appointments">
+            <h3>Add Appointment</h3>
+            <form action='/add' method='POST'>
+                {% csrf_token %}
+                <p>Date: <input type="date" name="date"></p>
+                <p>Time: <input type="time" name="time"></p>
+                <p>Task: <input type="text" name="title"></p>
+                <input type='submit' name='add' value='Add'/>
+            </form>
+			{% if messages %}
+                <ul class='messages'>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+  </body>
+  </html>
+  

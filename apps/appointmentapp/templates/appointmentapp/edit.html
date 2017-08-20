@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'appointmentapp/style.css' %}">
+        <title>Login/Registration</title>
+    </head>
+    <body>
+        <form action='/welcome'>
+            {% csrf_token %}
+            <input type='submit' name='dashboard' value='Dashboard'/>
+        </form>
+        <form action='/logout'>
+            {% csrf_token %}
+            <input type='submit' name='logout' value='Logout'/>
+        </form>
+
+       <form action='/update' method='POST'>
+            {% csrf_token %}
+            <p>Task: <input type="text" name="title" value={{task.title}}></p>
+            <p>Status:
+                <select name='status'>
+                    <option value="1">Done</option>
+                    <option value="2">Pending</option>
+                    <option value="3">Missed</option>
+                </select>
+            </p>
+            <p>Date: <input type="date" name="date" value={{date}}></p>
+            <p>Time: <input type="time" name="time" value={{time}}></p>
+            <input type="hidden" name='id' value={{task.id}}>
+            <input type='submit' name='update' value='Update'/>
+        </form>
+            {% if messages %}
+            <ul class='messages'>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    </body>
+  </html>  
